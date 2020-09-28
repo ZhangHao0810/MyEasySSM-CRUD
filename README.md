@@ -2,4 +2,8 @@
 
 基于SSM（Spring+SpringMVC+MyBatis）框架实现的后台员工管理系统。  
 
-前端使用bootstrap设计样式，ajax发送请求。
+前端使用bootstrap-3.3.7设计样式，ajax
+
+数据库连接池 C3p0
+
+配有 字符编码过滤器.
