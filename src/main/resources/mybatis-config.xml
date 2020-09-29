@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 这个配置文件可以不要, 把所有要配置的放在applicationContext 配置和MyBatis的整合的bean中 但是我们一般是提取出来的.- -->
+
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+	<settings><!-- 开启驼峰命名规则 -->
+		<setting name="mapUnderscoreToCamelCase" value="true" />
+	</settings>
+	<typeAliases><!-- 起别名, 方便编写. -->
+		<package name="com.zhanghao.crud.bean" />
+	</typeAliases>
+</configuration>
