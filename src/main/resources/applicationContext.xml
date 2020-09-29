@@ -9,6 +9,82 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
-<!-- Spring的配置文件, 这里主要配置和业务逻辑有关的内容. -->
+	<!-- Spring的配置文件, 这里主要配置和业务逻辑有关的内容. -->
+
+	<!-- Spring扫描包 除了Controller不扫, 其他的都扫. 正好和SpringMVC的扫描配置互补. -->
+	<context:component-scan
+		base-package="com.zhanghao">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />  <!-- Ctrl+ shift +t 快速全文搜索. -->
+	</context:component-scan>
+
+	<!-- ==========================数据源的配置============================================== -->
+
+	<!-- 引入外部数据配置文件 -->
+	<context:property-placeholder
+		location="classpath:dbconfig.properites" />
+
+	<bean id="pooledDataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
+		<property name="driverClass" value="${jdbc.driverClass}"></property>
+		<property name="user" value="${jdbc.user}"></property>
+		<property name="password" value="${jdbc.password}"></property>
+	</bean>
+
+
+
+	<!-- ========================配置和MyBatis的整合-======================================. -->
+	<bean id="sqlSessionFactoryBean"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 指定Mybatis 全局配置文件的位置. -->
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
+		<property name="dataSource" value="pooledDataSource"></property>
+		<property name="mapperLocations"
+			value="classpath:mapper/*xml"></property>
+	</bean>
+
+
+	<!-- 配置扫描器, 將Mybais接口的实现加入到IOC容器中 -->
+	<!-- Mybais接口的实现是一个代理对象, 所以需要通过下面的代码加入到IOC容器中. -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 扫描所有的DAO接口的实现. 加入到IOC容器中. -->
+		<property name="basePackage" value="com.zhanghao.crud.dao"></property>
+	</bean>
+
+
+	<!-- ===========================事务控制的配置 非常重要 熟练书写 ========================================= -->
+	
+	<!-- 配置事务管理器 这个id很重要, 配置事务增强的时候要用到.-->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<!-- 控制住数据源 -->
+		<property name="dataSource" ref="pooledDataSource"></property>
+	</bean>
+
+	<!-- 开启基于注解 的事务, 或者使用xml配置形式的事务(18年的时候主要都是使用配置来控制) -->
+	<aop:config>
+		<!-- 切入点表达式, 哪些要切入 execution是必须要写的, 里面的内容表示位置. * 表示所有的访问控制符, 可以写 public 
+			就是指定访问控制了. 后面.. 两个点 表示service包下面还有子包 也行. 后面的 *() 表示所有类 所有方法 ()里面再.. 表示参数任意多也行. -->
+		<aop:pointcut
+			expression="execution(* com.zhanghao.crud.service..*(..))"
+			id="txPoint" />
+		<!-- 配置事务增强 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="txPoint" />
+	</aop:config>
+
+	<!-- 配置事务增强,也就是事务如何切入. 默认使用的事务管理器名字是transactionManager, 若不是, 要将正确的名称填入. -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- *表示所有方法都是事务方法. -->
+			<tx:method name="*" />
+			<!-- 以get开始的所有方法. 给她填一个read-only属性 true. 作为优化. -->
+			<tx:method name="get*" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+
+	<!-- ↑↑↑↑↑↑↑↑↑↑Spring配置文件的核心点↑↑↑↑↑↑ (数据源, 与Mybais的整合, 事务控制) 一定要可以熟练的配置出来. -->
+
 
 </beans>
