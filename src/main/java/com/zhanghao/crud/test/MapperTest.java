@@ -9,7 +9,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.zhanghao.crud.bean.Department;
+import com.zhanghao.crud.bean.Employee;
 import com.zhanghao.crud.dao.DepartmentMapper;
+import com.zhanghao.crud.dao.EmployeeMapper;
 
 /**
  * 测试dao层的工作
@@ -26,6 +28,9 @@ public class MapperTest {
 	
 	@Autowired
 	DepartmentMapper departmentMapper;
+	
+	@Autowired
+	EmployeeMapper employee;
 
 	/**
 	 * 测试DepartmentMapper
@@ -38,11 +43,18 @@ public class MapperTest {
 		//2、从容器中获取mapper
 		DepartmentMapper bean = ioc.getBean(DepartmentMapper.class);*/
 			
-		System.out.println(departmentMapper);
+//		System.out.println(departmentMapper);
 		
-		//1、插入几个部门
-		departmentMapper.insertSelective(new Department(null,"9999999999"));
-		departmentMapper.insertSelective(new Department(null,"w器"));
+		
+//		//1、插入几个部门
+//		departmentMapper.insertSelective(new Department(null,"9999999999"));
+//		departmentMapper.insertSelective(new Department(null,"w器"));
+		
+		
+		//2.生成员工数据 测试员工插入.
+		employee.insertSelective(new Employee(null,"王祺","M","mm王祺@91pron.com",1));
+		
+		//3.批量插入多个;
 		
 		
 	}

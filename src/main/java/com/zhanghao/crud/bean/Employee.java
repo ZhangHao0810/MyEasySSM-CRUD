@@ -1,40 +1,28 @@
 package com.zhanghao.crud.bean;
-//
-//import javax.validation.constraints.Pattern;
-//
-//import org.hibernate.validator.constraints.Email;
-//import org.hibernate.validator.constraints.Length;
-
 
 public class Employee {
-    private Integer empId;
+	private Integer empId;
 
+	private String empName;
+	private String gender;
 
-    private String empName;
-    private String gender;
+	private String email;
 
+	private Integer dId;
+	// 希望查询员工的时候, 部门也是查询好的.
+	private Department department;
 
-    private String email;
-
-    private Integer dId;
-    
-    private Department department;
-    
-
-    
-    @Override
+	@Override
 	public String toString() {
-		return "Employee [empId=" + empId + ", empName=" + empName
-				+ ", gender=" + gender + ", email=" + email + ", dId=" + dId
-				+ "]";
+		return "Employee [empId=" + empId + ", empName=" + empName + ", gender=" + gender + ", email=" + email
+				+ ", dId=" + dId + "]";
 	}
 
 	public Employee() {
 		super();
 	}
 
-	public Employee(Integer empId, String empName, String gender, String email,
-			Integer dId) {
+	public Employee(Integer empId, String empName, String gender, String email, Integer dId) {
 		super();
 		this.empId = empId;
 		this.empName = empName;
@@ -52,42 +40,42 @@ public class Employee {
 	}
 
 	public Integer getEmpId() {
-        return empId;
-    }
+		return empId;
+	}
 
-    public void setEmpId(Integer empId) {
-        this.empId = empId;
-    }
+	public void setEmpId(Integer empId) {
+		this.empId = empId;
+	}
 
-    public String getEmpName() {
-        return empName;
-    }
+	public String getEmpName() {
+		return empName;
+	}
 
-    public void setEmpName(String empName) {
-        this.empName = empName == null ? null : empName.trim();
-    }
+	public void setEmpName(String empName) {
+		this.empName = empName == null ? null : empName.trim();
+	}
 
-    public String getGender() {
-        return gender;
-    }
+	public String getGender() {
+		return gender;
+	}
 
-    public void setGender(String gender) {
-        this.gender = gender == null ? null : gender.trim();
-    }
+	public void setGender(String gender) {
+		this.gender = gender == null ? null : gender.trim();
+	}
 
-    public String getEmail() {
-        return email;
-    }
+	public String getEmail() {
+		return email;
+	}
 
-    public void setEmail(String email) {
-        this.email = email == null ? null : email.trim();
-    }
+	public void setEmail(String email) {
+		this.email = email == null ? null : email.trim();
+	}
 
-    public Integer getdId() {
-        return dId;
-    }
+	public Integer getdId() {
+		return dId;
+	}
 
-    public void setdId(Integer dId) {
-        this.dId = dId;
-    }
+	public void setdId(Integer dId) {
+		this.dId = dId;
+	}
 }
