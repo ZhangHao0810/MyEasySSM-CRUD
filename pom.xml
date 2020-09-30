@@ -27,6 +27,15 @@
 			<version>5.2.8.RELEASE</version>
 		</dependency>
 
+		<!-- Spring的单元测试模块. -->
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-test -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>5.2.8.RELEASE</version>
+		</dependency>
+
+
 		<!-- Spring 面向切面编程 -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-aspects -->
 		<dependency>
@@ -98,7 +107,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
-			<scope>test</scope>
 		</dependency>
 
 	</dependencies>

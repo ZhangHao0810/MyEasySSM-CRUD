@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhanghao.crud.dao.DepartmentMapper">
   <resultMap id="BaseResultMap" type="com.zhanghao.crud.bean.Department">
-    <result column="dept_id" jdbcType="INTEGER" property="deptId" />
+    <id column="dept_id" jdbcType="INTEGER" property="deptId" />
     <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -72,7 +72,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from tb_dept
+    from tbl_dept
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -80,18 +80,28 @@
       order by ${orderByClause}
     </if>
   </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from tbl_dept
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from tbl_dept
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </delete>
   <delete id="deleteByExample" parameterType="com.zhanghao.crud.bean.DepartmentExample">
-    delete from tb_dept
+    delete from tbl_dept
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.zhanghao.crud.bean.Department">
-    insert into tb_dept (dept_id, dept_name)
+    insert into tbl_dept (dept_id, dept_name)
     values (#{deptId,jdbcType=INTEGER}, #{deptName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.zhanghao.crud.bean.Department">
-    insert into tb_dept
+    insert into tbl_dept
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="deptId != null">
         dept_id,
@@ -110,13 +120,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.zhanghao.crud.bean.DepartmentExample" resultType="java.lang.Long">
-    select count(*) from tb_dept
+    select count(*) from tbl_dept
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update tb_dept
+    update tbl_dept
     <set>
       <if test="record.deptId != null">
         dept_id = #{record.deptId,jdbcType=INTEGER},
@@ -130,11 +140,25 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update tb_dept
+    update tbl_dept
     set dept_id = #{record.deptId,jdbcType=INTEGER},
       dept_name = #{record.deptName,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zhanghao.crud.bean.Department">
+    update tbl_dept
+    <set>
+      <if test="deptName != null">
+        dept_name = #{deptName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where dept_id = #{deptId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zhanghao.crud.bean.Department">
+    update tbl_dept
+    set dept_name = #{deptName,jdbcType=VARCHAR}
+    where dept_id = #{deptId,jdbcType=INTEGER}
   </update>
 </mapper>
