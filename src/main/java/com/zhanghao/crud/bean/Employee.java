@@ -9,20 +9,15 @@ package com.zhanghao.crud.bean;
 public class Employee {
     private Integer empId;
 
-//    @Pattern(regexp="(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})"
-//    		,message="鐢ㄦ埛鍚嶅繀椤绘槸2-5浣嶄腑鏂囨垨鑰�6-16浣嶈嫳鏂囧拰鏁板瓧鐨勭粍鍚�")
-    private String empName;
 
+    private String empName;
     private String gender;
 
-    //@Email
-//    @Pattern(regexp="^([a-z0-9_\\.-]+)@([\\da-z\\.-]+)\\.([a-z\\.]{2,6})$",
-//    		message="閭鏍煎紡涓嶆纭�")
+
     private String email;
 
     private Integer dId;
     
-    //甯屾湜鏌ヨ鍛樺伐鐨勫悓鏃堕儴闂ㄤ俊鎭篃鏄煡璇㈠ソ鐨�
     private Department department;
     
 

@@ -107,7 +107,7 @@
         dept_id,
       </if>
       <if test="deptName != null">
-        dept_name,
+       dept_name,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">

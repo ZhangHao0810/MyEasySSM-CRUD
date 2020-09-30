@@ -11,7 +11,7 @@ import org.mybatis.generator.internal.DefaultShellCallback;
 
 public class MBGTest {
 	public static void main(String[] args) throws Exception {
-		//¸´ÖÆÓëMybatis generator ¹Ù·½ÎÄµµ.
+		//ä» Mybatis generator å®˜ç½‘å¾—æ¥çš„. 
 		   List<String> warnings = new ArrayList<String>();
 		   boolean overwrite = true;
 		   File configFile = new File("mbg.xml");

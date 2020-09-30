@@ -1,9 +1,9 @@
-¸ú×öÉÐ¹è¹È 2018Äê  SSM¿ò¼ÜÕûºÏÏîÄ¿.  ÓÃÒÔ¸´Ï°SSM¿ò¼ÜÊ¹ÓÃÁ÷³Ì.
+è·Ÿåšå°šç¡…è°· 2018å¹´ SSMæ¡†æž¶æ•´åˆé¡¹ç›®. ç”¨ä»¥å¤ä¹ SSMæ¡†æž¶ä½¿ç”¨æµç¨‹.
 
-»ùÓÚSSM£¨Spring+SpringMVC+MyBatis£©¿ò¼ÜÊµÏÖµÄºóÌ¨Ô±¹¤¹ÜÀíÏµÍ³¡£  
+åŸºäºŽSSMï¼ˆSpring+SpringMVC+MyBatisï¼‰æ¡†æž¶å®žçŽ°çš„åŽå°å‘˜å·¥ç®¡ç†ç³»ç»Ÿã€‚
 
-Ç°¶ËÊ¹ÓÃbootstrap-3.3.7Éè¼ÆÑùÊ½£¬ajax
+å‰ç«¯ä½¿ç”¨bootstrap-3.3.7è®¾è®¡æ ·å¼ï¼Œajax
 
-Êý¾Ý¿âÁ¬½Ó³Ø C3p0
+æ•°æ®åº“è¿žæŽ¥æ±  C3p0
 
-ÅäÓÐ ×Ö·û±àÂë¹ýÂËÆ÷.
+é…æœ‰ å­—ç¬¦ç¼–ç è¿‡æ»¤å™¨.
