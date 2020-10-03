@@ -70,8 +70,8 @@ public class MapperTest {
 		EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
 		for (int i = 0; i < 1000; i++) {
 			String uid = UUID.randomUUID().toString().substring(0, 5)+i;
-			mapper.insertSelective(new Employee(null,i+":wq","M",uid+":swq@91pron.com",1));
+			mapper.insertSelective(new Employee(null,i+"-王棋","M",uid+":swq@91pron.com",1));
 		}
-		System.out.println("批量删除完成.");
+		System.out.println("批量插入完成.");
 	}
 }
