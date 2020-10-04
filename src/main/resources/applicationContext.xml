@@ -25,11 +25,38 @@
 		location="classpath:dbconfig.properties" />
 
 	<bean id="pooledDataSource"
-		class="com.mchange.v2.c3p0.ComboPooledDataSource">
-		<property name="jdbcUrl" value="${jdbc.jdbcUrl}"></property>
-		<property name="driverClass" value="${jdbc.driverClass}"></property>
-		<property name="user" value="${jdbc.user}"></property>
-		<property name="password" value="${jdbc.password}"></property>
+		class="com.alibaba.druid.pool.DruidDataSource" init-method="init" 
+		destroy-method="close">
+		<property name="url"
+			value="${jdbc.jdbcUrl}" />
+		<property name="driverClassName"
+			value="${jdbc.driverClass}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+
+		<!-- 配置初始化大小、最小、最大 -->
+		<property name="initialSize" value="3" />
+		<property name="minIdle" value="3" />
+		<property name="maxActive" value="20" />
+
+		<!-- 配置获取连接等待超时的时间 -->
+		<property name="maxWait" value="60000" />
+
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+		<property name="minEvictableIdleTimeMillis" value="300000" />
+
+		<property name="validationQuery" value="SELECT 1" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testOnReturn" value="false" />
+
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
+		<property name="poolPreparedStatements" value="true" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="20" />
 	</bean>
 
 
@@ -38,9 +65,11 @@
 	<bean id="sqlSessionFactory"
 		class="org.mybatis.spring.SqlSessionFactoryBean">
 		<!-- 指定Mybatis 全局配置文件的位置. -->
-		<property name="configLocation"	value="classpath:mybatis-config.xml"></property>
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml"></property>
 		<property name="dataSource" ref="pooledDataSource"></property>
-		<property name="mapperLocations" value="classpath:mapper/*xml"></property>
+		<property name="mapperLocations"
+			value="classpath:mapper/*xml"></property>
 	</bean>
 
 
@@ -50,17 +79,19 @@
 		<!-- 扫描所有的DAO接口的实现. 加入到IOC容器中. -->
 		<property name="basePackage" value="com.zhanghao.crud.dao"></property>
 	</bean>
-	
+
 	<!-- 配置一个可以批量的sqlSession -->
-	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
-		<constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory"></constructor-arg>
 		<constructor-arg name="executorType" value="BATCH"></constructor-arg>
 	</bean>
 
 
 	<!-- ===========================事务控制的配置 非常重要 熟练书写 ========================================= -->
-	
-	<!-- 配置事务管理器 这个id很重要, 配置事务增强的时候要用到.-->
+
+	<!-- 配置事务管理器 这个id很重要, 配置事务增强的时候要用到. -->
 	<bean id="transactionManager"
 		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<!-- 控制住数据源 -->
@@ -79,7 +110,8 @@
 	</aop:config>
 
 	<!-- 配置事务增强,也就是事务如何切入. 默认使用的事务管理器名字是transactionManager, 若不是, 要将正确的名称填入. -->
-	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<tx:advice id="txAdvice"
+		transaction-manager="transactionManager">
 		<tx:attributes>
 			<!-- *表示所有方法都是事务方法. -->
 			<tx:method name="*" />

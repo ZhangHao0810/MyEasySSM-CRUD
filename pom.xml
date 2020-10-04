@@ -71,11 +71,17 @@
 
 		<!-- 数据库连接池 -->
 		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
+		<!-- <dependency> <groupId>com.mchange</groupId> <artifactId>c3p0</artifactId> 
+		<version>0.9.5.4</version> </dependency> -->
+		
+		<!-- druid配置 -->
+		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
 		<dependency>
-			<groupId>com.mchange</groupId>
-			<artifactId>c3p0</artifactId>
-			<version>0.9.5.4</version>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.1.23</version>
 		</dependency>
+
 
 
 		<!-- MySQL 驱动 -->
@@ -85,7 +91,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>8.0.16</version>
 		</dependency>
-		
+
 		<!-- JSTL -->
 		<!-- https://mvnrepository.com/artifact/jstl/jstl -->
 		<dependency>
