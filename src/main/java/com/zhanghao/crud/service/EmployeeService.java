@@ -16,7 +16,6 @@ public class EmployeeService {
 
 	//查询所有员工
 	public List<Employee> getAll() {
-		// TODO Auto-generated method stub
 		return employeeMapper.selectByExampleWithDept(null);
 	}
 
