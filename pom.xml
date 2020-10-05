@@ -19,6 +19,15 @@
 			<version>5.2.8.RELEASE</version>
 		</dependency>
 
+		<!-- 返回json字符串的支持. -->
+		<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
+
 		<!-- Spring JDBC -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
 		<dependency>
@@ -72,8 +81,8 @@
 		<!-- 数据库连接池 -->
 		<!-- https://mvnrepository.com/artifact/com.mchange/c3p0 -->
 		<!-- <dependency> <groupId>com.mchange</groupId> <artifactId>c3p0</artifactId> 
-		<version>0.9.5.4</version> </dependency> -->
-		
+			<version>0.9.5.4</version> </dependency> -->
+
 		<!-- druid配置 -->
 		<!-- https://mvnrepository.com/artifact/com.alibaba/druid -->
 		<dependency>
