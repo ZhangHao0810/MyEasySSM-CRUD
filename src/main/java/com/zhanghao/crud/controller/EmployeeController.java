@@ -35,7 +35,7 @@ public class EmployeeController {
 	@RequestMapping("/emps")
 	@ResponseBody // 返回Json数据.
 	public Msg getEmpsWithJson(
-			@RequestParam(value = "pageNumber", defaultValue = "1") Integer pn) {
+			@RequestParam(value = "pn", defaultValue = "1") Integer pn) {
 		// 引入分页插件.
 		// 传入页码以及每页的大小.
 		PageHelper.startPage(pn, 5);
