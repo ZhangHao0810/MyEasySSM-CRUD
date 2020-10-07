@@ -150,13 +150,25 @@ web路径：
 			
 			var firstpageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
 			var prepageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+			if (result.extend.PageInfo.hasPreviousPage == false){
+				firstpageLi.addClass("disabled");
+				prepageLi.addClass("disabled");
+			}
 			var nextpageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
 			var lastpageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+			if (result.extend.PageInfo.hasNextPage == false){
+				firstpageLi.addClass("disabled");
+				prepageLi.addClass("disabled");
+			}
 			//添加首页和前一页。
 			ul.append(firstpageLi).append(prepageLi);
 			//遍历添加页码号 1,2,3,4,5
 			$.each(result.extend.PageInfo.navigatepageNums,function(index,item){
 				var numLi=$("<li></li>").append($("<a></a>").append(item));
+				
+				if (result.extend.PageInfo.pageNum == item){
+					numLi.addClass("active");
+				}
 				ul.append(numLi);
 			});
 			//添加下一页和末页
