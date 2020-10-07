@@ -80,9 +80,15 @@ web路径：
 	<script type="text/javascript">
 		//1.页面加载之后, 发送一个ajax请求 要到分页数据.
 		$(function() {
+			//页面默认是首页。
+			to_page(1);
+		});
+		
+		
+		function to_page(pn){
 			$.ajax({
 				url : "${APP_PATH}/emps",
-				data : "pn=1",
+				data : "pn="+pn,
 				type : "GET",
 				success : function(result) {
 					//console.log(result); 
@@ -94,9 +100,11 @@ web路径：
 					build_poge_nav(result);
 				}
 			});
-		});
+		}
 
 		function build_emps_table(result) {
+			//清空table表格。（不然每次执行jQuery 就会将信息累加， 页面会不断边长。）
+			$("#emps_table tbody").empty();
 			var emps = result.extend.PageInfo.list;
 			$.each(emps, function(index, item) {//每一个item就是一个list对象， 即表格中的一行数据。 
 				//alert(item.empName);
@@ -137,6 +145,7 @@ web路径：
 
 		//解析显示分页信息
 		function build_page_info(result){
+			$("#page_info_area").empty();
 			$("#page_info_area").append("当前 "+result.extend.PageInfo.pageNum +
 					"页，总 "+ result.extend.PageInfo.pages+
 					"页，总"+result.extend.PageInfo.total+ 
@@ -145,7 +154,7 @@ web路径：
 		}
 		//解析显示分页条, 点击分页要能出现动作。
 		function build_poge_nav(result) {
-			
+			$("#page_nav_area").empty();
 			var ul=$("<ul></ul>").addClass("pagination");
 			
 			var firstpageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
@@ -153,13 +162,34 @@ web路径：
 			if (result.extend.PageInfo.hasPreviousPage == false){
 				firstpageLi.addClass("disabled");
 				prepageLi.addClass("disabled");
+			}else{
+				//为元素添加点击翻页事件。
+				firstpageLi.click(function(){
+					to_page(1);
+				});
+				prepageLi.click(function(){
+					to_page(result.extend.PageInfo.pageNum -1);
+				});
 			}
+			
+			
+			
 			var nextpageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
 			var lastpageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
 			if (result.extend.PageInfo.hasNextPage == false){
-				firstpageLi.addClass("disabled");
-				prepageLi.addClass("disabled");
+				nextpageLi.addClass("disabled");
+				lastpageLi.addClass("disabled");
+			}else{
+				//添加点击事件。
+				nextpageLi.click(function(){
+					to_page(result.extend.PageInfo.pageNum +1);
+				});
+				lastpageLi.click(function(){
+					to_page(result.extend.PageInfo.pages);
+				});
 			}
+			
+			
 			//添加首页和前一页。
 			ul.append(firstpageLi).append(prepageLi);
 			//遍历添加页码号 1,2,3,4,5
@@ -169,6 +199,9 @@ web路径：
 				if (result.extend.PageInfo.pageNum == item){
 					numLi.addClass("active");
 				}
+				numLi.click(function(){
+					to_page(item);
+				});
 				ul.append(numLi);
 			});
 			//添加下一页和末页
