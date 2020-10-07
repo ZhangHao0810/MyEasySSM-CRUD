@@ -89,6 +89,9 @@ web路径：
 					//1.解析并显示员工数据
 					build_emps_table(result);
 					//2.解析并显示分页信息.
+					build_page_info(result);
+					//3 解析显示分页条
+					build_poge_nav(result);
 				}
 			});
 		});
@@ -109,8 +112,8 @@ web路径：
 
 				var editBtn = $("<button></button>").addClass(
 						"btn btn-primary btn-sm")
-						.append(
-								$("<span></span>").addClass("glyphicon glyphicon-pencil")).append(" 编辑");
+						.append($("<span></span>").addClass("glyphicon glyphicon-pencil"))
+						.append(" 编辑");
 				var delBtn = $("<button></button>").addClass(
 				"btn btn-danger btn-sm")
 				.append(
@@ -120,14 +123,49 @@ web路径：
 
 				var btnTd =$("<td></td>").append(editBtn).append(delBtn);
 				//append方法执行之后 还是返回原来的元素。
-				$("<tr></tr>").append(checkBoxTd).append(empIdTd).append(empNameTd).append(genderTd).append(emailTd).append(deptNameTd).append(btnTd).appendTo(
-						"#emps_table tbody");
+				$("<tr></tr>").append(checkBoxTd)
+						.append(empIdTd)
+						.append(empNameTd)
+						.append(genderTd)
+						.append(emailTd)
+						.append(deptNameTd)
+						.append(btnTd)
+						.appendTo("#emps_table tbody");
 
 			});
 		}
 
+		//解析显示分页信息
+		function build_page_info(result){
+			$("#page_info_area").append("当前 "+result.extend.PageInfo.pageNum +
+					"页，总 "+ result.extend.PageInfo.pages+
+					"页，总"+result.extend.PageInfo.total+ 
+					"条记录")
+			
+		}
+		//解析显示分页条,
 		function build_poge_nav(result) {
-
+			
+			var ul=$("<ul></ul>").addClass("pagination");
+			
+			var firstpageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+			var prepageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
+			var nextpageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
+			var lastpageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+			//添加首页和前一页。
+			ul.append(firstpageLi).append(prepageLi);
+			//遍历添加页码号 1,2,3,4,5
+			$.each(result.extend.PageInfo.navigatepageNums,function(index,item){
+				var numLi=$("<li></li>").append($("<a></a>").append(item));
+				ul.append(numLi);
+			});
+			//添加下一页和末页
+			ul.append(nextpageLi).append(lastpageLi);
+			
+			//把ul加入到 nav元素中。 
+			var navEle=$("<nav></nav>").append(ul);
+			
+			navEle.appendTo("#page_nav_area")
 		}
 	</script>
 
