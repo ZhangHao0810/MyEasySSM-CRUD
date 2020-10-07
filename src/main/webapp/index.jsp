@@ -143,7 +143,7 @@ web路径：
 					"条记录")
 			
 		}
-		//解析显示分页条,
+		//解析显示分页条, 点击分页要能出现动作。
 		function build_poge_nav(result) {
 			
 			var ul=$("<ul></ul>").addClass("pagination");
