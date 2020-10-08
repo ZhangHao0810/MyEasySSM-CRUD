@@ -68,9 +68,9 @@ public class MapperTest {
 //		}
 		//批量的插入.
 		EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
-		for (int i = 0; i < 1000; i++) {
+		for (int i = 0; i < 200; i++) {
 			String uid = UUID.randomUUID().toString().substring(0, 5)+i;
-			mapper.insertSelective(new Employee(null,i+"-王棋","M",uid+":swq@91pron.com",1));
+			mapper.insertSelective(new Employee(null,i+"-王棋","F",uid+":swq@91pron.com",2));
 		}
 		System.out.println("批量插入完成.");
 	}
