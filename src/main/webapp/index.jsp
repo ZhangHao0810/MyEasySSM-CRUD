@@ -274,14 +274,36 @@ web路径：
 		$("#emp_add_modal_btn").click(function(){
 /* 			//清除表单数据（表单完整重置（表单的数据，表单的样式））
 			reset_form("#empAddModal form");
-			//s$("")[0].reset();
-			//发送ajax请求，查出部门信息，显示在下拉列表中
-			getDepts("#empAddModal select"); */
-			//弹出模态框
+			//s$("")[0].reset();*/
+			//发送ajax请求，查出部门信息，显示在下拉列表中  
+			getDepts("#empAddModal select"); 
+			//弹出模态框 
 			$("#empAddModal").modal({
 				backdrop:"static"
 			});
 		});
+		
+		//查出所有的部门信息并显示在下拉列表中
+		function getDepts(ele){
+			//清空之前下拉列表的值
+			$(ele).empty();
+			$.ajax({
+				url:"${APP_PATH}/depts",
+				type:"GET",
+				success:function(result){
+					//{"code":100,"msg":"处理成功！",
+						//"extend":{"depts":[{"deptId":1,"deptName":"开发部"},{"deptId":2,"deptName":"测试部"}]}}
+					//console.log(result);
+					//显示部门信息在下拉列表中
+					//$("#empAddModal select").append("")
+					$.each(result.extend.depts,function(){
+						var optionEle = $("<option></option>").append(this.deptName).attr("value",this.deptId);
+						optionEle.appendTo(ele);
+					});
+				}
+			});
+			
+		}
 	</script>
 
 </body>
