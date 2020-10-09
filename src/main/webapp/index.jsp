@@ -304,6 +304,22 @@ web路径：
 			});
 			
 		}
+		
+		$("#emp_save_btn").click(function(){
+			//1.模态框中填的东西保存起来。
+			
+			//用Ajax的serialize（）序列化表格内容为字符串。 
+		  //alert($("#empAddModal form").serialize());
+			//2.发送ajax请求给服务器， 保存员工
+			$.ajax({
+				url:"${APP_PATH}/emp",
+				type:"POST",
+				data:$("#empAddModal form").serialize(),
+				success:function(result){
+					alert(result.msg);
+				}
+			}) 
+		})
 	</script>
 
 </body>
