@@ -41,7 +41,7 @@ public class EmployeeController {
 	 *   POST 请求。
 	 * 	 @return
 	 */
-	@RequestMapping(value="/emp",method = RequestMethod.POST)
+	@RequestMapping(value="/emps",method = RequestMethod.POST)
 	@ResponseBody
 	public Msg saveEmp(Employee employee) {
 		employeeService.saveEmp(employee);
