@@ -135,6 +135,12 @@ web路径：
 	</div>
 
 	<script type="text/javascript">
+	
+	/**
+	totalRecord 保存总记录数。
+	*/
+	var totalRecord,currentPage;
+	
 		//1.页面加载之后, 发送一个ajax请求 要到分页数据.
 		$(function() {
 			//页面默认是首页。
@@ -144,17 +150,17 @@ web路径：
 		
 		function to_page(pn){
 			$.ajax({
-				url : "${APP_PATH}/emps",
-				data : "pn="+pn,
-				type : "GET",
-				success : function(result) {
-					//console.log(result); 
-					//1.解析并显示员工数据
+				url:"${APP_PATH}/emps",
+				data:"pn="+pn,
+				type:"GET",
+				success:function(result){
+					//console.log(result);
+					//1、解析并显示员工数据
 					build_emps_table(result);
-					//2.解析并显示分页信息.
+					//2、解析并显示分页信息
 					build_page_info(result);
-					//3 解析显示分页条
-					build_poge_nav(result);
+					//3、解析显示分页条数据
+					build_page_nav(result);
 				}
 			});
 		}
@@ -203,57 +209,59 @@ web路径：
 		//解析显示分页信息
 		function build_page_info(result){
 			$("#page_info_area").empty();
-			$("#page_info_area").append("当前 "+result.extend.PageInfo.pageNum +
-					"页，总 "+ result.extend.PageInfo.pages+
-					"页，总"+result.extend.PageInfo.total+ 
-					"条记录")
-			
+			$("#page_info_area").append("当前"+result.extend.pageInfo.pageNum+"页,总"+
+					result.extend.pageInfo.pages+"页,总"+
+					result.extend.pageInfo.total+"条记录");
+			totalRecord = result.extend.pageInfo.total;
+			currentPage = result.extend.pageInfo.pageNum;
 		}
-		//解析显示分页条, 点击分页要能出现动作。
-		function build_poge_nav(result) {
+		//解析显示分页条，点击分页要能去下一页....
+		function build_page_nav(result){
+			//page_nav_area
 			$("#page_nav_area").empty();
-			var ul=$("<ul></ul>").addClass("pagination");
+			var ul = $("<ul></ul>").addClass("pagination");
 			
-			var firstpageLi=$("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
-			var prepageLi=$("<li></li>").append($("<a></a>").append("&laquo;"));
-			if (result.extend.PageInfo.hasPreviousPage == false){
-				firstpageLi.addClass("disabled");
-				prepageLi.addClass("disabled");
+			//构建元素
+			var firstPageLi = $("<li></li>").append($("<a></a>").append("首页").attr("href","#"));
+			var prePageLi = $("<li></li>").append($("<a></a>").append("&laquo;"));
+			if(result.extend.pageInfo.hasPreviousPage == false){
+				firstPageLi.addClass("disabled");
+				prePageLi.addClass("disabled");
 			}else{
-				//为元素添加点击翻页事件。
-				firstpageLi.click(function(){
+				//为元素添加点击翻页的事件
+				firstPageLi.click(function(){
 					to_page(1);
 				});
-				prepageLi.click(function(){
-					to_page(result.extend.PageInfo.pageNum -1);
+				prePageLi.click(function(){
+					to_page(result.extend.pageInfo.pageNum -1);
 				});
 			}
 			
 			
 			
-			var nextpageLi=$("<li></li>").append($("<a></a>").append("&raquo;"));
-			var lastpageLi=$("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
-			if (result.extend.PageInfo.hasNextPage == false){
-				nextpageLi.addClass("disabled");
-				lastpageLi.addClass("disabled");
+			var nextPageLi = $("<li></li>").append($("<a></a>").append("&raquo;"));
+			var lastPageLi = $("<li></li>").append($("<a></a>").append("末页").attr("href","#"));
+			if(result.extend.pageInfo.hasNextPage == false){
+				nextPageLi.addClass("disabled");
+				lastPageLi.addClass("disabled");
 			}else{
-				//添加点击事件。
-				nextpageLi.click(function(){
-					to_page(result.extend.PageInfo.pageNum +1);
+				nextPageLi.click(function(){
+					to_page(result.extend.pageInfo.pageNum +1);
 				});
-				lastpageLi.click(function(){
-					to_page(result.extend.PageInfo.pages);
+				lastPageLi.click(function(){
+					to_page(result.extend.pageInfo.pages);
 				});
 			}
 			
 			
-			//添加首页和前一页。
-			ul.append(firstpageLi).append(prepageLi);
-			//遍历添加页码号 1,2,3,4,5
-			$.each(result.extend.PageInfo.navigatepageNums,function(index,item){
-				var numLi=$("<li></li>").append($("<a></a>").append(item));
+			
+			//添加首页和前一页 的提示
+			ul.append(firstPageLi).append(prePageLi);
+			//1,2，3遍历给ul中添加页码提示
+			$.each(result.extend.pageInfo.navigatepageNums,function(index,item){
 				
-				if (result.extend.PageInfo.pageNum == item){
+				var numLi = $("<li></li>").append($("<a></a>").append(item));
+				if(result.extend.pageInfo.pageNum == item){
 					numLi.addClass("active");
 				}
 				numLi.click(function(){
@@ -261,13 +269,12 @@ web路径：
 				});
 				ul.append(numLi);
 			});
-			//添加下一页和末页
-			ul.append(nextpageLi).append(lastpageLi);
+			//添加下一页和末页 的提示
+			ul.append(nextPageLi).append(lastPageLi);
 			
-			//把ul加入到 nav元素中。 
-			var navEle=$("<nav></nav>").append(ul);
-			
-			navEle.appendTo("#page_nav_area")
+			//把ul加入到nav
+			var navEle = $("<nav></nav>").append(ul);
+			navEle.appendTo("#page_nav_area");
 		}
 		
 		//点击新增按钮弹出模态框。
@@ -305,21 +312,30 @@ web路径：
 			
 		}
 		
+		
+		//新增按钮的模态框中， 点击保存，保存员工。
 		$("#emp_save_btn").click(function(){
 			//1.模态框中填的东西保存起来。
-			
 			//用Ajax的serialize（）序列化表格内容为字符串。 
 		  //alert($("#empAddModal form").serialize());
 			//2.发送ajax请求给服务器， 保存员工
 			$.ajax({
-				url:"${APP_PATH}/emp",
+				url:"${APP_PATH}/emps",
 				type:"POST",
 				data:$("#empAddModal form").serialize(),
 				success:function(result){
-					alert(result.msg);
+					//alert(result.msg);
+					
+					//当员工保存成功后
+					//1. 关闭模态框。
+					$("#empAddModal").modal('hide');
+					//2.来到最后一页， 显示刚才保存的数据。
+					//发送ajax请求显示最后一页数据即可
+					to_page(totalRecord);
+					
 				}
-			}) 
-		})
+			}); 
+		});
 	</script>
 
 </body>
