@@ -26,9 +26,13 @@ import com.zhanghao.crud.bean.Msg;
 import com.zhanghao.crud.service.EmployeeService;
 
 /**
- * 处理员工CRUD请求. URI： /emp/{id} GET请求，查询员工 /emp POST请求，保存员工 /emp/{id} PUT请求， 修改员工
- * /emp/{id} DELETE请求， 删除员工。 这样只有请求不同的时候，走的controller不同，实现功能不同。这几个功能都是emp开头。
- * 
+ * 处理员工CRUD请求.
+ * 		URI：
+ * 		/emp/{id} GET请求，查询员工
+ * 		/emp  POST请求，保存员工
+ * 		/emp/{id} PUT请求， 修改员工
+ * 		/emp/{id} DELETE请求， 删除员工。
+ * 	这样只有请求不同的时候，走的controller不同，实现功能不同。这几个功能都是emp开头。
  * @author ZhangHao
  *
  */
