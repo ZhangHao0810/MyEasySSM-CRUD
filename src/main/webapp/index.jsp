@@ -11,7 +11,6 @@
 <%
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
 %>
-
 <!--  用Json来返回数据给浏览器. -->
 <!-- web路径：
 不以/开始的相对路径，找资源，以当前资源的路径为基准，经常容易出问题。
@@ -25,6 +24,7 @@
 	rel="stylesheet">
 <script
 	src="${APP_PATH }/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -103,10 +103,8 @@
 				<table class="table table-hover" id="emps_table">
 					<thead>
 						<tr>
-							<th>
-								<input type="checkbox" id="check_all"/>
-							</th>
 							<th>#</th>
+							<th>EmpId</th>
 							<th>empName</th>
 							<th>gender</th>
 							<th>email</th>
@@ -132,6 +130,7 @@
 		</div>
 		
 	</div>
+	
 	<script type="text/javascript">
 	
 		var totalRecord,currentPage;
@@ -317,7 +316,7 @@
 			var regName = /(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})/;
 			if(!regName.test(empName)){
 				//alert("用户名可以是2-5位中文或者6-16位英文和数字的组合");
-				show_validate_msg("#empName_add_input", "error", "用户名可以是2-5位中文或者6-16位英文和数字的组合");
+				show_validate_msg("#empName_add_input", "error", "前端校验：用户名可以是2-5位中文或者6-16位英文和数字的组合");
 				return false;
 			}else{
 				show_validate_msg("#empName_add_input", "success", "");
@@ -328,7 +327,6 @@
 			var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 			if(!regEmail.test(email)){
 				//alert("邮箱格式不正确");
-				//应该清空这个元素之前的样式
 				show_validate_msg("#email_add_input", "error", "邮箱格式不正确");
 				/* $("#email_add_input").parent().addClass("has-error");
 				$("#email_add_input").next("span").text("邮箱格式不正确"); */
@@ -339,10 +337,11 @@
 			return true;
 		}
 		
-		//显示校验结果的提示信息
+		//显示校验结果的提示信息 校验的代码都一样，抽取出来。
 		function show_validate_msg(ele,status,msg){
-			//清除当前元素的校验状态
-			$(ele).parent().removeClass("has-success has-error");
+			//清除当前元素的校验状态 否则样式会叠加。
+			$(ele).parent().removeClass("has-success has-error");//多个类 之间用空格间隔。
+			//当前元素下一个span的文本内容也应该清空。 （就是校验的错误信息要清空）
 			$(ele).next("span").text("");
 			if("success"==status){
 				$(ele).parent().addClass("has-success");
@@ -353,7 +352,8 @@
 			}
 		}
 		
-		//校验用户名是否可用
+		
+		//校验用户名是否可用  绑定change事件， 当内容改变之后， 发送Ajax请求。
 		$("#empName_add_input").change(function(){
 			//发送ajax请求校验用户名是否可用
 			var empName = this.value;
@@ -373,13 +373,13 @@
 			});
 		});
 		
-		//点击保存，保存员工。
+		//Click事件  点击保存，保存员工。
 		$("#emp_save_btn").click(function(){
 			//1、模态框中填写的表单数据提交给服务器进行保存
-			//1、先对要提交给服务器的数据进行校验
-			if(!validate_add_form()){
+			//1、先对要提交的数据进行校验
+ 			if(!validate_add_form()){
 				return false;
-			};
+			}; 
 			//1、判断之前的ajax用户名校验是否成功。如果成功。
 			if($(this).attr("ajax-va")=="error"){
 				return false;
@@ -387,7 +387,7 @@
 			
 			//2、发送ajax请求保存员工
 			$.ajax({
-				url:"${APP_PATH}/emp",
+				url:"${APP_PATH}/emps",
 				type:"POST",
 				data:$("#empAddModal form").serialize(),
 				success:function(result){
