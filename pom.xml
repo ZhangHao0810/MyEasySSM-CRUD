@@ -27,6 +27,15 @@
 			<version>2.11.0</version>
 		</dependency>
 
+		<!-- JSR 303数据校验支持 -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.4.1.Final</version>
+		</dependency>
+
+
 
 		<!-- Spring JDBC -->
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-jdbc -->
