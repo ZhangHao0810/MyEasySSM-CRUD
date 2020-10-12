@@ -11,7 +11,7 @@
 <%
 	pageContext.setAttribute("APP_PATH", request.getContextPath());
 %>
-<!--  用Json来返回数据给浏览器. -->
+<!--  浏览器接收Jason数据. -->
 <!-- web路径：
 不以/开始的相对路径，找资源，以当前资源的路径为基准，经常容易出问题。
 以/开始的相对路径，找资源，以服务器的路径为标准(http://localhost:3306)；需要加上项目名
