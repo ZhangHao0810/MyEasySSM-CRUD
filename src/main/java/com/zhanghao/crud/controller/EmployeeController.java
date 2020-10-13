@@ -52,7 +52,7 @@ public class EmployeeController {
 		// 先判断用户名是否是合法的表达式;
 		String regx = "(^[a-zA-Z0-9_-]{6,16}$)|(^[\u2E80-\u9FFF]{2,5})";
 		if (!empName.matches(regx)) {
-			return Msg.fail().add("va_msg", "后端格式校验：用户名必须是6-16位数字和字母的组合或者2-5位中文");
+			return Msg.fail().add("va_msg", "后端Controller校验：用户名必须是6-16位数字和字母的组合或者2-5位中文");
 		}
 
 		// 数据库用户名重复校验。
@@ -60,15 +60,12 @@ public class EmployeeController {
 		if (b) {
 			return Msg.success();
 		} else {
-			return Msg.fail().add("va_msg", "后端校验：用户名数据库重复");
+			return Msg.fail().add("va_msg", "后端Controller校验：用户名已包含在数据库");
 		}
 	}
 
 	/**
-	 * 保存员工信息 1.支持JSR303校验 2.导入Hibernate-Validatator
-	 * 
-	 * 
-	 * 
+	 * 	保存员工信息 1.支持JSR303校验 2.导入Hibernate-Validatator
 	 * POST 请求。
 	 * 
 	 * @return
