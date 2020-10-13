@@ -54,23 +54,23 @@ public class MapperTest {
 		
 //		//1、插入几个部门
 //		departmentMapper.insertSelective(new Department(null,"9999999999"));
-//		departmentMapper.insertSelective(new Department(null,"w器"));
+//		departmentMapper.insertSelective(new Department(null,"w"));
 		
 		
 		//2.生成员工数据 测试员工插入.
-//		employeeMapper.insertSelective(new Employee(null,"wq","M","mmwq@91pron.com",1));
+//		employeeMapper.insertSelective(new Employee(null,"wq","M","mmwq@qq.com",1));
 		
 		//3.批量插入多个;
 		
 //	    用for循环来做的话, 效能很差.
 //		for() {
-//			employeeMapper.insertSelective(new Employee(null,"wq","M","mmwq@91pron.com",1));
+//			employeeMapper.insertSelective(new Employee(null,"wq","M","mmwq@qq.com",1));
 //		}
 		//批量的插入.
 		EmployeeMapper mapper = sqlSession.getMapper(EmployeeMapper.class);
 		for (int i = 0; i < 200; i++) {
 			String uid = UUID.randomUUID().toString().substring(0, 5)+i;
-			mapper.insertSelective(new Employee(null,i+"-王棋","F",uid+":swq@91pron.com",2));
+			mapper.insertSelective(new Employee(null,i+"-刘备","F",uid+":swq@qq.com",2));
 		}
 		System.out.println("批量插入完成.");
 	}
