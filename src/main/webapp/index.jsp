@@ -361,7 +361,7 @@
 			
 		}
 		
-		//校验表单数据
+		//前端校验表单数据，这个函数是在点击保存的时候触发。
 		function validate_add_form(){
 			//1、拿到要校验的数据，使用正则表达式
 			var empName = $("#empName_add_input").val();
@@ -379,7 +379,7 @@
 			var regEmail = /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/;
 			if(!regEmail.test(email)){
 				//alert("邮箱格式不正确");
-				show_validate_msg("#email_add_input", "error", "邮箱格式不正确");
+				show_validate_msg("#email_add_input", "error", "前端校验：邮箱格式不正确");
 				/* $("#email_add_input").parent().addClass("has-error");
 				$("#email_add_input").next("span").text("邮箱格式不正确"); */
 				return false;
@@ -405,7 +405,7 @@
 		}
 		
 		
-		//校验用户名是否可用  绑定change事件， 当内容改变之后， 发送Ajax请求。
+		//校验用户名是否可用  绑定change事件， 当内容改变之后， 发送Ajax请求给后台。
 		$("#empName_add_input").change(function(){
 			//发送ajax请求校验用户名是否可用
 			var empName = this.value;
@@ -414,6 +414,7 @@
 				data:"empName="+empName,
 				type:"POST",
 				success:function(result){
+					//当输入框的内容改变的时候，返回后台的校验信息。
 					if(result.code==100){
 						show_validate_msg("#empName_add_input","success","用户名可用");
 						$("#emp_save_btn").attr("ajax-va","success");
@@ -427,15 +428,18 @@
 		
 		//Click事件  点击保存，保存员工。
 		$("#emp_save_btn").click(function(){
-			//1、模态框中填写的表单数据提交给服务器进行保存
-			//1、先对要提交的数据进行校验
- 			if(!validate_add_form()){
-				return false;
-			}; 
-			//1、判断之前的ajax用户名校验是否成功。如果成功。
+			//模态框中填写的表单数据提交给服务器进行保存
+			
+			//1、判断之前的ajax用户名校验是否成功。如果成功再接着走。
 			if($(this).attr("ajax-va")=="error"){
 				return false;
 			}
+			
+			//2、对要提交的数据进行前端校验 （注意 这里是前端的校验，没有后端校验。）
+ 			if(!validate_add_form()){
+				return false;
+			}; 
+
 			
 			//2、发送ajax请求保存员工
 			$.ajax({
