@@ -2,6 +2,7 @@ package com.zhanghao.crud.controller;
 
 import static org.hamcrest.CoreMatchers.nullValue;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -44,6 +45,32 @@ public class EmployeeController {
 
 	@Autowired
 	EmployeeService employeeService;
+	
+	
+	/**
+	 *  	单个删除和批量删除合并。
+	 *  	批量删除，用 - 隔开。
+	 * @param id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/emp/{ids}",method = RequestMethod.DELETE)
+	public Msg deletEmp(@PathVariable("ids") String ids) {
+		if (ids.contains("-")) {
+			List<Integer> del_ids=new ArrayList<Integer>();
+			String[] str_ids = ids.split("-");
+			//组装id的集合。
+			for (String string : str_ids) {
+				del_ids.add(Integer.parseInt(string));
+			}
+			employeeService.deletBatch(del_ids);			
+		}else {
+			Integer id=Integer.parseInt(ids);
+			employeeService.deletEmp(id);
+		
+		}		
+		return Msg.success();
+	}
 	
 	
 	
