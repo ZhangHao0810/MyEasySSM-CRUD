@@ -220,12 +220,7 @@
 				var genderTd = $("<td></td>").append(item.gender=='M'?"男":"女");
 				var emailTd = $("<td></td>").append(item.email);
 				var deptNameTd = $("<td></td>").append(item.department.deptName);
-				/**
-				<button class="">
-									<span class="" aria-hidden="true"></span>
-									编辑
-								</button>
-				*/
+				
 				var editBtn = $("<button></button>").addClass("btn btn-primary btn-sm edit_btn")
 								.append($("<span></span>").addClass("glyphicon glyphicon-pencil")).append("编辑");
 				//为编辑按钮添加一个自定义的属性，来表示当前员工id
@@ -476,7 +471,7 @@
 
 		//1、我们是按钮创建之前就绑定了click，所以绑定不上。
 		//1）、可以在创建按钮的时候绑定。    2）、绑定点击.live()
-		//jquery新版没有live，使用on进行替代
+		//jquery新版没有live方法，使用on进行替代
 		$(document).on("click",".edit_btn",function(){
 			//alert("edit");
 			
@@ -493,9 +488,10 @@
 			});
 		});
 		
+		//查询员工信息并显示的Ajax方法
 		function getEmp(id){
 			$.ajax({
-				url:"${APP_PATH}/emp/"+id,
+				url:"${APP_PATH}/emps/"+id,
 				type:"GET",
 				success:function(result){
 					//console.log(result);
