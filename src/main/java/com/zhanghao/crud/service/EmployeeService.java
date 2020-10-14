@@ -55,4 +55,13 @@ public class EmployeeService {
 		return selectByPrimaryKey;
 	}
 
+	
+	/**
+	 * 	员工更新的方法
+	 * @param employee
+	 */
+	public void updateEmp(Employee employee) {
+		employeeMapper.updateByPrimaryKeySelective(employee);
+	}
+
 }
