@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +45,83 @@ public class EmployeeController {
 	@Autowired
 	EmployeeService employeeService;
 	
-	@RequestMapping(value = "/emps/{id}",method = RequestMethod.GET)
+	
+	
+	/**
+	 * 	如果指甲发送 ajax=put 形式的请求，
+	 *  	问题： 请求体中有数据， 但是Employee对象封装不上。
+	 * 	
+	 * 	原因：Tomcat 将请求体中的数据，封装成一个map
+	 * 		request.getParameter("empName") 会从map取值。
+	 * 		而 SpringMVC封装POJO对象的时候， 会把POJO中每个属性的值，request.getParamter("email")
+	 * 
+	 *  Ajax 的 PUT请求不能直接发， 请求体中的数据 request.getParameter都拿不到。
+	 *  	因为Tomcat看到是PUT 就不会封装请求体中的数据为map，只有POST才会封装成map。 requset.getParamter是从这个map中取数据的。
+	 *  		Web.xml 配置这个过滤器即可。 可以直接发送PUT请求，并且封装上请求体中的数据。
+	 *  	<filter-mapping>
+				<filter-name>HttpPutFormContentFilter</filter-name>
+				<url-pattern>/*</url-pattern>
+			</filter-mapping>
+	 *  
+	 *  
+	 * 	员工更新方法。
+	 * @param employee
+	 * @return
+	 */
+	/**
+	 * 如果直接发送ajax=PUT形式的请求
+	 * 封装的数据
+	 * Employee 
+	 * [empId=1014, empName=null, gender=null, email=null, dId=null]
+	 * 
+	 * 问题：
+	 * 请求体中有数据；
+	 * 但是Employee对象封装不上；
+	 * update tbl_emp  where emp_id = 1014;
+	 * 
+	 * 原因：
+	 * Tomcat：
+	 * 		1、将请求体中的数据，封装一个map。
+	 * 		2、request.getParameter("empName")就会从这个map中取值。
+	 * 		3、SpringMVC封装POJO对象的时候。
+	 * 				会把POJO中每个属性的值，request.getParamter("email");
+	 * AJAX发送PUT请求引发的血案：
+	 * 		PUT请求，请求体中的数据，request.getParameter("empName")拿不到
+	 * 		Tomcat一看是PUT不会封装请求体中的数据为map，只有POST形式的请求才封装请求体为map
+	 * org.apache.catalina.connector.Request--parseParameters() (3111);
+	 * 
+	 * protected String parseBodyMethods = "POST";
+	 * if( !getConnector().isParseBodyMethod(getMethod()) ) {
+                success = true;
+                return;
+            }
+	 * 
+	 * 
+	 * 解决方案；
+	 * 我们要能支持直接发送PUT之类的请求还要封装请求体中的数据
+	 * 1、配置上HttpPutFormContentFilter；
+	 * 2、他的作用；将请求体中的数据解析包装成一个map。
+	 * 3、request被重新包装，request.getParameter()被重写，就会从自己封装的map中取数据
+	 * 员工更新方法
+	 * @param employee
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/emp/{empId}",method=RequestMethod.PUT)
+	public Msg saveEmp(Employee employee,HttpServletRequest request){
+		System.out.println("请求体中的值："+request.getParameter("gender"));
+		System.out.println("将要更新的员工数据："+employee);
+		employeeService.updateEmp(employee);
+		return Msg.success()	;
+	}
+	
+	
+	/**
+	 * 	编辑模态框的显示。
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value = "/emp/{id}",method = RequestMethod.GET)
 	@ResponseBody
 	public Msg getEmp(@PathVariable("id") Integer id) {
 		
