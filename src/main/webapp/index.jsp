@@ -491,7 +491,7 @@
 		//查询员工信息并显示的Ajax方法
 		function getEmp(id){
 			$.ajax({
-				url:"${APP_PATH}/emps/"+id,
+				url:"${APP_PATH}/emp/"+id,
 				type:"GET",
 				success:function(result){
 					//console.log(result);
